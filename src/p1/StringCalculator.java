@@ -18,7 +18,9 @@ public class StringCalculator {
 				String[] split = numbers.split(",|(\n)");
 				for(int i = 0; i < split.length; i++){
 					if(Integer.parseInt(split[i]) >= 0){
-						sum += Integer.parseInt(split[i]);
+						if(Integer.parseInt(split[i]) <= 1000){
+							sum += Integer.parseInt(split[i]);
+						}
 					}
 					else{
 						negNumbers.add(split[i]);
@@ -57,7 +59,10 @@ public class StringCalculator {
 		sum = str.Add("3,2,1\n3\n2\n1");
 		out.println(sum);
 		
-		sum = str.Add("-2,3,4,-3");
+		//sum = str.Add("-2,3,4,-3");
+		//out.println(sum);
+		
+		sum = str.Add("1001,2");
 		out.println(sum);
 	}
 	
