@@ -7,6 +7,13 @@ import edu.princeton.cs.algs4.Out;
 public class StringCalculator {
 	public int Add(String numbers) throws Exception{
 		int sum = 0;
+		String delimiter = "";
+		if(numbers.startsWith("\\")){
+			String[] delSplit = numbers.split("\n");
+			delimiter = "(" + delSplit[0].substring(1, delSplit[0].length()) + ")|";
+			numbers = numbers.substring(numbers.indexOf("\n"), numbers.length());
+		}
+		delimiter += ",|(\n)";
 		if(numbers == "")
 			return 0;
 		else{
@@ -14,29 +21,31 @@ public class StringCalculator {
 				return Integer.parseInt(numbers);
 			}
 			else{
-				ArrayList<String> negNumbers = new ArrayList<String>();
-				String[] split = numbers.split(",|(\n)");
+				String[] split = numbers.split(delimiter);
+				ArrayList<String> negativeNumbers = new ArrayList<>();
 				for(int i = 0; i < split.length; i++){
-					if(Integer.parseInt(split[i]) >= 0){
-						if(Integer.parseInt(split[i]) <= 1000){
-							sum += Integer.parseInt(split[i]);
+					//An additional check, for some reason an empty space always started at the start of each 
+					if(!split[i].equals("")){
+						if(Integer.parseInt(split[i]) >= 0){
+							if(Integer.parseInt(split[i]) <= 1000){
+								sum += Integer.parseInt(split[i]);
+							}
+						}
+						else{
+							negativeNumbers.add(split[i]);
 						}
 					}
-					else{
-						negNumbers.add(split[i]);
+				}
+				if(!negativeNumbers.isEmpty()){
+					String s = "";
+					for(String st : negativeNumbers){
+						s += st + ", ";
 					}
-				}
-				if(!negNumbers.isEmpty()){
-				String s = "";
-				for(String st : negNumbers){
-					s += st + ", ";
-				}
-				throw new Exception("Negatives not allowed: " + s);
+					throw new Exception("Negatives not allowed: " + s);
 				}
 				return sum;
 			}
-		
-		}	
+		}
 	}
 	
 	public static void test() throws Exception{
@@ -63,6 +72,9 @@ public class StringCalculator {
 		//out.println(sum);
 		
 		sum = str.Add("1001,2");
+		out.println(sum);
+		
+		sum = str.Add("\\k\n2k5k10");
 		out.println(sum);
 	}
 	
