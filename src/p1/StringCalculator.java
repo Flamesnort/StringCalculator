@@ -1,7 +1,5 @@
 package p1;
 
-import java.util.ArrayList;
-
 import edu.princeton.cs.algs4.Out;
 
 public class StringCalculator {
@@ -10,11 +8,11 @@ public class StringCalculator {
 		if(numbers == "")
 			return 0;
 		else{
-			if(numbers.indexOf(',') < 0){
+			if(numbers.indexOf(',') < 0 && numbers.indexOf("\n") < 0){
 				return Integer.parseInt(numbers);
 			}
 			else{
-				String[] split = numbers.split(",");
+				String[] split = numbers.split(",|(\n)");
 				for(int i = 0; i < split.length; i++){
 					sum += Integer.parseInt(split[i]);
 				}
@@ -36,6 +34,12 @@ public class StringCalculator {
 		out.println(sum);
 		
 		sum = str.Add("4,14");
+		out.println(sum);
+		
+		sum = str.Add("3,2,1,3,2,1");
+		out.println(sum);
+		
+		sum = str.Add("3,2,1\n3\n2\n1");
 		out.println(sum);
 	}
 	
