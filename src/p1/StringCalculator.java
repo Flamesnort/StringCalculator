@@ -1,9 +1,11 @@
 package p1;
 
+import java.util.ArrayList;
+
 import edu.princeton.cs.algs4.Out;
 
 public class StringCalculator {
-	public int Add(String numbers){
+	public int Add(String numbers) throws Exception{
 		int sum = 0;
 		if(numbers == "")
 			return 0;
@@ -12,9 +14,22 @@ public class StringCalculator {
 				return Integer.parseInt(numbers);
 			}
 			else{
+				ArrayList<String> negNumbers = new ArrayList<String>();
 				String[] split = numbers.split(",|(\n)");
 				for(int i = 0; i < split.length; i++){
-					sum += Integer.parseInt(split[i]);
+					if(Integer.parseInt(split[i]) >= 0){
+						sum += Integer.parseInt(split[i]);
+					}
+					else{
+						negNumbers.add(split[i]);
+					}
+				}
+				if(!negNumbers.isEmpty()){
+				String s = "";
+				for(String st : negNumbers){
+					s += st + ", ";
+				}
+				throw new Exception("Negatives not allowed: " + s);
 				}
 				return sum;
 			}
@@ -22,7 +37,7 @@ public class StringCalculator {
 		}	
 	}
 	
-	public static void test(){
+	public static void test() throws Exception{
 		Out out = new Out();
 		StringCalculator str = new StringCalculator();
 		int sum = 0;
@@ -41,9 +56,12 @@ public class StringCalculator {
 		
 		sum = str.Add("3,2,1\n3\n2\n1");
 		out.println(sum);
+		
+		sum = str.Add("-2,3,4,-3");
+		out.println(sum);
 	}
 	
-	public static void main(String[] args){
+	public static void main(String[] args) throws Exception{
 		test();
 	}
 }
